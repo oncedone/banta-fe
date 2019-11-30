@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import newsPage from './news-page.nvue';
+	import newsPage from './news-page.vue';
 
 	// 缓存每页最多
 	const MAX_CACHE_DATA = 100;

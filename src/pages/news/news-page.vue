@@ -35,8 +35,8 @@
 		friendlyDate
 	} from '@/common/util.js';
 
-	import noData from '@/components/nodata.nvue';
-	import newsItem from './news-item.nvue';
+	import noData from '@/components/nodata.vue';
+	import newsItem from './news-item.vue';
 
 	export default {
 		components: {

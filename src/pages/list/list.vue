@@ -48,8 +48,8 @@
 		friendlyDate
 	} from '@/common/util.js';
 
-	import noData from '@/components/nodata.nvue';
-	import mediaItem from './list-item.nvue';
+	import noData from '@/components/nodata.vue';
+	import mediaItem from './list-item.vue';
 
 	// 缓存每页最多
 	const MAX_CACHE_DATA = 100;

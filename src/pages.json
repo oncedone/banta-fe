@@ -1,17 +1,34 @@
 {
-	"pages": [{
-			"path": "pages/list/list",
-			"style": {}
-		},
-		{
-			"path": "pages/detail/detail",
-			"style": {}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "新闻资讯",
-		"navigationBarBackgroundColor": "#2F85FC",
-		"backgroundColor": "#FFFFFF"
-	}
+  "pages": [
+    {
+      "path": "pages/list/list",
+      "style": {}
+    },
+    {
+      "path": "pages/detail/detail",
+      "style": {}
+    },
+    {
+      "path": "pages/auth/auth",
+      "style": {}
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "新闻资讯",
+    "navigationBarBackgroundColor": "#2F85FC",
+    "backgroundColor": "#FFFFFF"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/list/list",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/detail/detail",
+        "text": "日志"
+      }
+    ]
+  }
 }

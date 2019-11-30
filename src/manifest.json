@@ -1,7 +1,7 @@
 {
-	"name": "新闻资讯",
+	"name": "banta",
 	"appid": "",
-	"description": "基于uni-app开发的新闻/资讯类App模板",
+	"description": "基于uni-app开发的",
 	"versionName": "1.0.5",
 	"versionCode": 105,
 	"transformPx": false,
@@ -15,13 +15,9 @@
 		"launchwebview": {
 			"render": "onscreen"
 		},
-		/* 5+App特有相关 */
 		"modules": {},
-		/* 模块配置 */
 		"distribute": {
-			/* 应用发布信息 */
 			"android": {
-				/* android打包配置 */
 				"permissions": [
 					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
 					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
@@ -33,16 +29,12 @@
 				"abiFilters": ["armeabi-v7a"]
 			},
 			"ios": {},
-			/* ios打包配置 */
 			"sdkConfigs": {}
 		}
 	},
-	/* SDK配置 */
 	"quickapp": {},
-	/* 快应用特有相关 */
 	"mp-weixin": {
-		/* 小程序特有相关 */
-		"appid": "",
+		"appid": "wx7c2ca41fe7095b97",
 		"setting": {
 			"urlCheck": false
 		},

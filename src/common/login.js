@@ -1,34 +1,44 @@
-const _request = code => {
+const _request = (pathname, data) => {
     return new Promise((resolve, reject) => {
         uni.request({
-            url: '',
+            url: "http://api.oncedone.cn" + pathname,
             method: "POST",
             header: {
-                "content-type": "",
+                "content-type": "application/json"
             },
             data: {
-                code,
+                ...data
             },
             success(res) {
-                resolve(res);
+                const { data, statusCode, header } = res;
+                if (statusCode !== 200) {
+                    resolve({ code: statusCode, msg: '服务端异常' });
+                } else {
+                    if (!data) {
+                        resolve({ code: -2, msg: "没有data数据" });
+                    } else {
+                        resolve(data);
+                    }
+                }
             },
             fail(err) {
-                reject(err);
+                resolve({ code: -1, msg: "request调用失败" });
             }
         });
     });
 };
 
-export const oauth_login = async () => {
-    const [loginErr, loginRes] = await uni.login();
-
-    if (!loginErr) {
-        const { authResult } = loginRes;
-        console.log(authResult);
-        const { code } = authResult;
-
-        const res = await _request(code);
-    }
+// 三方登录
+export const oauth_login = async data => {
+    return await _request("/oauth/login", data);
 };
 
-export const login = async () => {};
+// 登录
+export const login = async () => {
+    return await _request("/login", data);
+};
+
+// 注册
+export const register = async () => {
+    return await _request("/register", data);
+};

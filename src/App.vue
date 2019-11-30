@@ -2,21 +2,13 @@
 import { oauth_login, login } from "./common/login";
 
 export default {
-    globalData: {},
+    globalData: {
+        sessionKey: uni.getStorageSync("sessionKey"),
+        userInfo: null
+    },
     onLaunch: async function() {
-        const globalData = getApp();
+        let globalData = this.$scope.globalData;
 
-        if (!globalData || !globalData.sessionKey) {
-            const [err, res] = await uni.getSetting();
-            if (res.authSetting["scope.userInfo"]) {
-                const oauthloginRes = await oauth_login();
-
-            } else {
-                uni.redirectTo("/pages/auth/auth");
-            }
-        } else {
-            const loginRes = await login();
-        }
     },
     onShow: function() {
         console.log("App Show");

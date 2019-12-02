@@ -18,7 +18,7 @@
         >
             微信账号快捷登录
         </button>
-        <view class="login-txt">输入手机号登录/注册</view>
+        <view class="login-txt" @click="handlePhoneLogin">输入手机号登录/注册</view>
         <view v-show="showUpdateTip">请升级微信版本</view>
     </view>
 </template>
@@ -122,6 +122,11 @@ export default {
         }
     },
     methods: {
+        handlePhoneLogin() {
+            uni.navigateTo({
+                url: '/pages/login/login'
+            });
+        },
         bindGetUserInfo(res) {
             console.log(res.detail);
             const {
@@ -168,10 +173,17 @@ export default {
                             "content-type": "application/json" // 默认值
                         },
                         success: res => {
-                            console.log("解密成功");
                             console.log(res);
+                            const { statusCode, data, header } = res;
+                            console.log(header);
+
+                            if (header['set-cookie']) {
+                                const match = header['set-cookie'].match(/^banta/);
+                                uni.setStorageSync({
+                                    sessionKey: header['set-cookie']
+                                })
+                            }
                             let phone = res.data.phoneNumber;
-                            console.log(phone);
                         },
                         fail: function(res) {
                             console.log("解密失败~~~~~~~~~~~~~");

@@ -1,20 +1,21 @@
+<template></template>
+
 <script>
-import { oauth_login, login } from "./common/login";
+import { oauth_login, login } from './common/login';
 
 export default {
     globalData: {
-        sessionKey: uni.getStorageSync("sessionKey"),
+        sessionKey: uni.getStorageSync('sessionKey'),
         userInfo: null
     },
     onLaunch: async function() {
         let globalData = this.$scope.globalData;
-
     },
     onShow: function() {
         console.log("App Show");
     },
     onHide: function() {
-        console.log("App Hide");
+        console.log('App Hide');
     }
 };
 </script>

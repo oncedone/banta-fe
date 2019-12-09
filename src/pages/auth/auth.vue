@@ -1,7 +1,8 @@
 <template>
     <view class="center">
-        <view class="title">
-            banta
+        <view class="header">
+            <view class="logo"></view>
+            <view class="title">办他</view>
         </view>
         <!-- <button
             v-show="canIUseUserInfo"
@@ -14,7 +15,7 @@
             class="wx-login-btn"
             v-show="canIUsePhoneNumber"
             open-type="getPhoneNumber"
-            @getphonenumber="binGetphonenumber"
+            @getphonenumber="bindGetphonenumber"
         >
             微信账号快捷登录
         </button>
@@ -24,193 +25,91 @@
 </template>
 
 <script>
-import { oauth_login, login } from "@/common/login";
+import { oauthLogin, login } from '@/services/login';
 
 export default {
     data() {
         return {
-            code: "",
-            canIUseUserInfo: uni.canIUse("button.open-type.getUserInfo"),
-            canIUsePhoneNumber: uni.canIUse("button.open-type.getPhoneNumber")
+            code: '',
+            canIUseUserInfo: uni.canIUse('button.open-type.getUserInfo'),
+            canIUsePhoneNumber: uni.canIUse('button.open-type.getPhoneNumber'),
         };
     },
     computed: {
         showUpdateTip() {
             return !this.canIUseUserInfo || !this.canIUsePhoneNumber;
-        }
+        },
     },
     async onLoad() {
-        this.login();
-
         return;
-        // uni.login({
-        //     success: res => {
-        //         var that = this;
-        //         // 获取session接口
-        //         wx.request({
-        //             url: "",
-        //             data: {
-        //                 code: res.code
-        //             },
-        //             method: "POST",
-        //             header: {
-        //                 "Content-Type": "application/x-www-form-urlencoded"
-        //             },
-        //             success: function(res) {
-        //                 that.setData({
-        //                     sessionkey: res.data
-        //                 });
-        //             },
-        //             fail: function(err) {
-        //                 console.log(err);
-        //             }
-        //         });
-        //     }
-        // });
-        if (!globalData.sessionKey) {
-            const [err, res] = await uni.getSetting();
-
-            // 没有授权过
-            // if (!res.authSetting["scope.userInfo"]) {
-            //     return uni.redirectTo({
-            //         url: "/pages/auth/auth"
-            //     });
-            // }
-
-            // 获取用户微信信息
-            // const [userInfoErr, userInfoRes] = await uni.getUserInfo();
-            // const { userInfo, encryptedData, iv, signature } = userInfoRes;
-            // console.log(userInfo);
-            // const {
-            //     avatarUrl,
-            //     gender,
-            //     language,
-            //     nickName,
-            //     country,
-            //     province,
-            //     city
-            // } = userInfo;
-
-            // 获取微信code, 服务端用于获取openid
-            // const [loginErr, loginRes] = await uni.login();
-            // const { code } = loginRes;
-
-            // 三方登录
-            const oauthLoginRes = await oauth_login({
-                type: 1, // 标识微信
-                code,
-                avatar: avatarUrl,
-                gender,
-                language,
-                nickName,
-                country,
-                province,
-                city
-            });
-            if (oauthLoginRes.code !== 0) {
-                uni.showToast({
-                    icon: "none",
-                    title: oauthLoginRes.msg || ""
-                });
-            } else {
-                uni.showToast({
-                    title: oauthLoginRes.msg
-                });
-            }
-        } else {
-            const loginRes = await login();
-        }
     },
     methods: {
         handlePhoneLogin() {
             uni.navigateTo({
-                url: '/pages/login/login'
+                url: '/pages/login/login',
             });
         },
         bindGetUserInfo(res) {
             console.log(res.detail);
-            const {
-                errMsg,
-                userInfo,
-                encryptedData,
-                iv,
-                signature,
-                rawData
-            } = res.detail;
-            if (errMsg !== "getUserInfo:ok") return;
-            const {
-                avatarUrl,
-                gender,
-                language,
-                nickName,
-                country,
-                province,
-                city
-            } = userInfo;
+            const { errMsg, userInfo, encryptedData, iv, signature, rawData } = res.detail;
+            if (errMsg !== 'getUserInfo:ok') return;
+            const { avatarUrl, gender, language, nickName, country, province, city } = userInfo;
         },
-        binGetphonenumber(res) {
+        async bindGetphonenumber(res) {
             console.log(res.detail);
             const { errMsg, encryptedData, iv } = res.detail;
-            if (errMsg !== "getPhoneNumber:ok") {
+            if (errMsg !== 'getPhoneNumber:ok') {
                 return uni.redirectTo({
-                    url: "/pages/login/login"
+                    url: '/pages/login/login',
                 });
             }
-            uni.checkSession({
-                success: () => {
-                    //同意授权
-                    wx.request({
-                        method: "POST",
-                        url: "http://api.oncedone.cn/oauth/login",
-                        data: {
-                            type: 1, // 标识微信
-                            code: this.code,
-                            mobile: 18515065589,
-                            // encrypdata: encryptedData,
-                            // ivdata: iv
-                        },
-                        header: {
-                            "content-type": "application/json" // 默认值
-                        },
-                        success: res => {
-                            console.log(res);
-                            const { statusCode, data, header } = res;
-                            console.log(header);
 
-                            if (header['set-cookie']) {
-                                const match = header['set-cookie'].match(/^banta/);
-                                uni.setStorageSync({
-                                    sessionKey: header['set-cookie']
-                                })
-                            }
-                            let phone = res.data.phoneNumber;
-                        },
-                        fail: function(res) {
-                            console.log("解密失败~~~~~~~~~~~~~");
-                            console.log(res);
-                        }
-                    });
-                },
-                fail: function() {
-                    console.log("session_key 已经失效，需要重新执行登录流程");
-                    that.login(); //重新登录
-                }
+            await this.login(); // 为了拿到code
+
+            const oauthLoginRes = oauthLogin({
+                type: 1, // 标识微信
+                code: this.code,
+                encrypted: encryptedData,
+                iv: iv,
             });
+
+            // 必须先检查一下wx的session有没有过期
+            // uni.checkSession({
+            //     success: () => {},
+            //     fail: function() {
+            //         console.log('session_key 已经失效，需要重新执行登录流程');
+            //         that.login(); //重新登录
+            //     },
+            // });
         },
         async login() {
             // 获取微信code, 服务端用于获取openid
             const [loginErr, loginRes] = await uni.login();
             const { code } = loginRes;
             this.code = code;
-        }
-    }
+        },
+    },
 };
 </script>
 
 <style scoped>
+.header {
+    padding-top: 170upx;
+}
+
+.logo {
+    width: 150upx;
+    height: 150upx;
+    background: url('../../static/app-icon.jpg') no-repeat center center;
+    background-size: contain;
+    margin: 0 auto;
+}
+
 .title {
     text-align: center;
-    margin-top: 40upx;
+    color: #222;
+    line-height: 56upx;
+    margin-top: 15upx;
     margin-bottom: 40upx;
 }
 

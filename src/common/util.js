@@ -47,6 +47,12 @@ function friendlyDate(timestamp) {
 	}
 	return formats[diffType].replace('%n%', diffValue);
 }
+
+
+export function isValidPhone(phone) {
+	return /^1\d{10}$/.test(phone)
+}
+
 export {
 	friendlyDate
 }

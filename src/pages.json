@@ -1,6 +1,10 @@
 {
     "pages": [
         {
+            "path": "pages/loading/loading",
+            "style": {}
+        },
+        {
             "path": "pages/auth/auth",
             "style": {}
         },
@@ -27,19 +31,23 @@
     ],
     "globalStyle": {
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "新闻资讯",
-        "navigationBarBackgroundColor": "#2F85FC",
+        "navigationBarTitleText": "办他",
+        "navigationBarBackgroundColor": "#E73626",
         "backgroundColor": "#FFFFFF"
     },
     "tabBar": {
         "list": [
             {
-                "pagePath": "pages/list/list",
-                "text": "首页"
+                "pagePath": "pages/home/home",
+                "text": "推荐"
             },
             {
-                "pagePath": "pages/detail/detail",
-                "text": "日志"
+                "pagePath": "pages/list/list",
+                "text": "办事"
+            },
+            {
+                "pagePath": "pages/ucenter/ucenter",
+                "text": "个人中心"
             }
         ]
     }

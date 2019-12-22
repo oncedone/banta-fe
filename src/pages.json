@@ -36,18 +36,20 @@
         "backgroundColor": "#FFFFFF"
     },
     "tabBar": {
+        "color": "#666",
+        "selectedColor": "#E73626",
         "list": [
             {
-                "pagePath": "pages/home/home",
-                "text": "推荐"
-            },
-            {
                 "pagePath": "pages/list/list",
-                "text": "办事"
+                "text": "办事",
+                "iconPath": "static/tab-list.png",
+                "selectedIconPath": "static/tab-list-active.png"
             },
             {
                 "pagePath": "pages/ucenter/ucenter",
-                "text": "个人中心"
+                "text": "个人中心",
+                "iconPath": "static/tab-ucenter.png",
+                "selectedIconPath": "static/tab-ucenter-active.png"
             }
         ]
     }

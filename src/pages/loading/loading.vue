@@ -1,6 +1,8 @@
 <template>
     <view>
-        <view v-show="loading">loading</view>
+        <view v-show="loading">
+            <!-- <image src='../../static/app-icon.png' /> -->
+        </view>
         <button v-show="showUserInfo" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">
             请求获取用户信息
         </button>
@@ -80,7 +82,7 @@ export default {
                 });
             } else {
                 uni.switchTab({
-                    url: '/pages/home/home',
+                    url: '/pages/list/list',
                 });
             }
         },

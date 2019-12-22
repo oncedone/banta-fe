@@ -1,41 +1,19 @@
 <template>
     <view class="center">
-        <view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
-            <image class="logo-img" :src="login ? uerInfo.avatarUrl : avatarUrl"></image>
+        <view class="logo">
+            <view class="logo-img">
+                <image :src="userInfo.avatar" />
+            </view>
             <view class="logo-title">
-                <text class="uer-name">Hi，{{ login ? uerInfo.name : '您未登录' }}</text>
-                <text class="go-login-navigat-arrow navigat-arrow" v-if="!login">&#xe65e;</text>
+                Hi，{{userInfo.nickName || ''}}
             </view>
         </view>
         <view class="center-list">
             <view class="center-list-item border-bottom">
-                <text class="list-icon">&#xe60f;</text>
-                <text class="list-text">账号管理</text>
-                <text class="navigat-arrow">&#xe65e;</text>
-            </view>
-            <view class="center-list-item">
-                <text class="list-icon">&#xe639;</text>
-                <text class="list-text">新消息通知</text>
-                <text class="navigat-arrow">&#xe65e;</text>
-            </view>
-        </view>
-        <view class="center-list">
-            <view class="center-list-item border-bottom">
-                <text class="list-icon">&#xe60b;</text>
-                <text class="list-text">帮助与反馈</text>
-                <text class="navigat-arrow">&#xe65e;</text>
-            </view>
-            <view class="center-list-item">
-                <text class="list-icon">&#xe65f;</text>
-                <text class="list-text">服务条款及隐私</text>
-                <text class="navigat-arrow">&#xe65e;</text>
-            </view>
-        </view>
-        <view class="center-list">
-            <view class="center-list-item">
-                <text class="list-icon">&#xe614;</text>
-                <text class="list-text">关于应用</text>
-                <text class="navigat-arrow">&#xe65e;</text>
+                <view class="list-text">建议与反馈</view>
+                <view class="list-item-icon">
+                    <image src="../../static/arrow.png" />
+                </view>
             </view>
         </view>
     </view>
@@ -47,13 +25,12 @@ export default {
     data() {
         return {
             login: false,
-            avatarUrl: '/static/logo.png',
-            uerInfo: {},
+            userInfo: {},
         };
     },
     async onLoad() {
-        const res = await getUserInfo();
-        console.log('res');
+        const { code, data, message } = await getUserInfo();
+        this.userInfo = data;
     },
     methods: {
         goLogin() {
@@ -66,19 +43,6 @@ export default {
 </script>
 
 <style>
-/* #ifndef APP-PLUS-NVUE */
-@font-face {
-    font-family: texticons;
-    font-weight: normal;
-    font-style: normal;
-    src: url('~@/static/text-icon.ttf') format('truetype');
-}
-
-page {
-    background-color: #f8f8f8;
-}
-
-/* #endif*/
 
 /* 解决头条小程序字体图标不显示问题，因为头条运行时自动插入了span标签，且有全局字体 */
 /* #ifdef MP-TOUTIAO */
@@ -89,17 +53,19 @@ text :not(view) {
 /* #endif */
 
 .center {
+    height: 100%;
+    background-color: #F4F4F4;
     flex: 1;
     flex-direction: column;
-    background-color: #f8f8f8;
 }
 
 .logo {
-    width: 750upx;
-    height: 240upx;
+    width: 100%;
+    background-color: #fff;
+    height: 200upx;
     padding: 20upx;
-    background-color: #2f85fc;
-    flex-direction: row;
+    display: flex;
+    margin-bottom: 30upx;
     align-items: center;
 }
 
@@ -108,21 +74,21 @@ text :not(view) {
 }
 
 .logo-img {
-    width: 150upx;
-    height: 150upx;
-    border-radius: 150upx;
+    width: 100upx;
+    height: 100upx;
+    border-radius: 100upx;
+}
+
+.logo-img image {
+    height: 100%;
+    width: 100%;
 }
 
 .logo-title {
-    height: 150upx;
-    flex: 1;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
     margin-left: 20upx;
 }
 
-.uer-name {
+.user-name {
     height: 60upx;
     line-height: 60upx;
     font-size: 38upx;
@@ -145,15 +111,24 @@ text :not(view) {
 .center-list {
     flex-direction: column;
     background-color: #ffffff;
-    margin-top: 20upx;
-    width: 750upx;
+    padding-left: 20upx;
 }
 
 .center-list-item {
     height: 90upx;
-    width: 750upx;
-    flex-direction: row;
-    padding: 0upx 20upx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-item-icon {
+    height: 26upx;
+    width: 16upx;
+}
+
+.list-item-icon image {
+    height: 100%;
+    width: 100%;
 }
 
 .border-bottom {
@@ -162,23 +137,11 @@ text :not(view) {
     border-bottom-style: solid;
 }
 
-.list-icon {
-    width: 40upx;
-    height: 90upx;
-    line-height: 90upx;
-    font-size: 34upx;
-    color: #2f85fc;
-    text-align: center;
-    font-family: texticons;
-    margin-right: 20upx;
-}
-
 .list-text {
     height: 90upx;
     line-height: 90upx;
     font-size: 34upx;
     color: #555;
-    flex: 1;
 }
 
 .navigat-arrow {

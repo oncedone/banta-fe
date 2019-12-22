@@ -188,7 +188,7 @@ export default {
 .logo {
     width: 150rpx;
     height: 150rpx;
-    background: url('../../static/app-icon.jpg') no-repeat center center;
+    background: url('../../static/app-icon.png') no-repeat center center;
     background-size: contain;
     margin: 0 auto;
 }

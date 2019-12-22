@@ -53,6 +53,11 @@ export function isValidPhone(phone) {
 	return /^1\d{10}$/.test(phone)
 }
 
+export function formatDate(str) {
+    const date = new Date(str);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+}
+
 export {
 	friendlyDate
 }
